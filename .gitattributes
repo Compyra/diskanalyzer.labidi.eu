@@ -1,0 +1,5 @@
+# Keep the shipped binaries byte-exact: never treat them as text.
+LabidiDiskAnalyzer.exe binary
+LabidiDiskAnalyzer-windows-arm64.exe binary
+LabidiDiskAnalyzer-linux-amd64 binary
+*.png binary

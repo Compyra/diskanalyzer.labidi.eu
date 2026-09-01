@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Labidi Disk Analyzer · Portable disk space analyzer for Windows</title>
+
+    <script>
+        (function () {
+            var t;
+            try { t = localStorage.getItem("theme"); } catch (e) { }
+            if (t !== "light" && t !== "dark") {
+                t = matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark";
+            }
+            document.documentElement.dataset.theme = t;
+        })();
+    </script>
+
+    <link rel="stylesheet" href="style.css?v=1">
+
+    <meta name="description" content="A 3.5 MB portable exe that shows where your disk space went and what changed: ranked folders, biggest files, snapshot diffs and restore-point comparisons. No installer, no admin, no telemetry.">
+    <meta name="author" content="Compyra">
+    <meta name="robots" content="index, follow">
+    <meta name="theme-color" content="#e8effd" media="(prefers-color-scheme: light)">
+    <meta name="theme-color" content="#030816" media="(prefers-color-scheme: dark)">
+    <meta name="color-scheme" content="dark light">
+
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://diskanalyzer.labidi.eu/">
+    <meta property="og:site_name" content="Labidi Disk Analyzer">
+    <meta property="og:title" content="Labidi Disk Analyzer · Portable disk space analyzer for Windows">
+    <meta property="og:description" content="See where the space went. Know what changed. One 3.5 MB portable exe: ranked folders, snapshot diffs, restore-point comparisons. No installer, no admin, no telemetry.">
+    <meta property="og:image" content="https://diskanalyzer.labidi.eu/og-image.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="Labidi Disk Analyzer: portable disk space analyzer for Windows">
+    <meta property="og:locale" content="en_US">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://diskanalyzer.labidi.eu/">
+    <meta property="twitter:title" content="Labidi Disk Analyzer · Portable disk space analyzer for Windows">
+    <meta property="twitter:description" content="See where the space went. Know what changed. One 3.5 MB portable exe, no installer, no admin, no telemetry.">
+    <meta property="twitter:image" content="https://diskanalyzer.labidi.eu/og-image.png">
+
+    <link rel="canonical" href="https://diskanalyzer.labidi.eu/">
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "Labidi Disk Analyzer",
+      "operatingSystem": "Windows 10, Windows 11, Linux",
+      "applicationCategory": "UtilitiesApplication",
+      "description": "Portable disk space analyzer and snapshot differ: ranked folders, biggest files, snapshot diffs and restore-point comparisons in one dependency-free executable.",
+      "url": "https://diskanalyzer.labidi.eu/",
+      "downloadUrl": "https://diskanalyzer.labidi.eu/LabidiDiskAnalyzer.exe",
+      "fileSize": "3.5MB",
+      "offers": { "@type": "Offer", "price": "0", "priceCurrency": "EUR" },
+      "publisher": { "@type": "Organization", "name": "Compyra", "url": "https://compyra.com" }
+    }
+    </script>
+</head>
+
+<body>
+    <!-- Inline SVG icon sprite -->
+    <svg xmlns="http://www.w3.org/2000/svg" style="display:none" aria-hidden="true">
+        <symbol id="i-download" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><polyline points="7 10 12 15 17 10"/><path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/></symbol>
+        <symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></symbol>
+        <symbol id="i-chart" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h16M4 5v14M6 9h11M6 13h7M6 17h4"/></symbol>
+        <symbol id="i-file" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></symbol>
+        <symbol id="i-layers" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 22 8.5 12 15 2 8.5 12 2"/><polyline points="2 15.5 12 22 22 15.5"/></symbol>
+        <symbol id="i-history" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 3-6.7"/><polyline points="3 3 3 8 8 8"/><polyline points="12 7 12 12 16 14"/></symbol>
+        <symbol id="i-terminal" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><polyline points="6 9 9 12 6 15"/><line x1="12" y1="15" x2="17" y2="15"/></symbol>
+        <symbol id="i-shield" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v5c0 4.5-3 7.6-7 9-4-1.4-7-4.5-7-9V6l7-3z"/><path d="M9 12l2 2 4-4"/></symbol>
+        <symbol id="i-copy" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></symbol>
+        <symbol id="i-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></symbol>
+        <symbol id="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></symbol>
+    </svg>
+
+    <a href="#main" class="skip-link">Skip to main content</a>
+
+    <header id="site-header">
+        <div class="container">
+            <a class="brand" href="#top" aria-label="Labidi Disk Analyzer, back to top">
+                <svg class="brand-mark" viewBox="0 0 64 64" aria-hidden="true">
+                    <defs>
+                        <linearGradient id="wedge" x1="0" y1="0" x2="1" y2="1">
+                            <stop offset="0" stop-color="#4fd6ff"/>
+                            <stop offset="1" stop-color="#2b8bff"/>
+                        </linearGradient>
+                    </defs>
+                    <circle cx="32" cy="32" r="29" fill="#0a1a3f" stroke="#4fd6ff" stroke-opacity=".55" stroke-width="2"/>
+                    <circle cx="32" cy="32" r="21" fill="none" stroke="#4fd6ff" stroke-opacity=".35" stroke-width="2"/>
+                    <circle cx="32" cy="32" r="13" fill="none" stroke="#4fd6ff" stroke-opacity=".25" stroke-width="2"/>
+                    <path d="M32 32 L32 5 A27 27 0 0 1 51.1 12.9 Z" fill="url(#wedge)"/>
+                    <circle cx="32" cy="32" r="4.5" fill="#4fd6ff"/>
+                </svg>
+                <span class="brand-name">Labidi Disk Analyzer
+                    <span class="brand-sub">labidi.eu · by Compyra</span>
+                </span>
+            </a>
+
+            <nav aria-label="Primary">
+                <ul>
+                    <li><a href="#features">Features</a></li>
+                    <li><a href="#cli">Command line</a></li>
+                    <li><a href="#download">Download</a></li>
+                    <li><a href="#faq">FAQ</a></li>
+                </ul>
+            </nav>
+
+            <div class="header-controls">
+                <button id="theme-toggle" type="button" aria-label="Toggle light and dark theme" aria-pressed="false">
+                    <svg class="icon theme-icon-moon" aria-hidden="true"><use href="#i-moon"></use></svg>
+                    <svg class="icon theme-icon-sun" aria-hidden="true"><use href="#i-sun"></use></svg>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main id="main">
+        <!-- ===================== HERO ===================== -->
+        <section class="hero" id="top" aria-labelledby="hero-title">
+            <div class="hero-grid" aria-hidden="true"></div>
+            <div class="hero-glow" aria-hidden="true"></div>
+            <div class="container">
+                <div class="hero-copy">
+                    <p class="hero-eyebrow">Free · Portable · Windows</p>
+                    <h1 id="hero-title">See where the space <span class="grad">went</span>.<br>Know what <span class="grad">changed</span>.</h1>
+                    <p class="hero-sub">
+                        Labidi Disk Analyzer is one small executable that ranks your folders by size,
+                        finds the biggest and newest files, and diffs snapshots or Windows restore points
+                        to show exactly what an install dropped where.
+                    </p>
+                    <div class="hero-ctas">
+                        <a class="btn btn-primary" href="LabidiDiskAnalyzer.exe" download>
+                            <svg class="icon" aria-hidden="true"><use href="#i-download"></use></svg>
+                            Download for Windows&nbsp;<small>x64 · 3.5 MB</small>
+                        </a>
+                        <a class="btn btn-ghost" href="#features">See what it does</a>
+                    </div>
+                    <p class="hero-meta">
+                        <span><svg class="icon" aria-hidden="true"><use href="#i-check"></use></svg> No installer</span>
+                        <span><svg class="icon" aria-hidden="true"><use href="#i-check"></use></svg> No admin required</span>
+                        <span><svg class="icon" aria-hidden="true"><use href="#i-check"></use></svg> No network code</span>
+                        <span><svg class="icon" aria-hidden="true"><use href="#i-check"></use></svg> <a href="#download">SHA-256 verified</a></span>
+                    </p>
+                </div>
+
+                <!-- Stylised replica of the real window -->
+                <div class="window reveal" role="img" aria-label="The Labidi Disk Analyzer window: a toolbar with a drive menu and scan buttons, folders ranked by size with share bars, and a status line teaching the equivalent console command.">
+                    <div class="window-titlebar">
+                        <svg class="brand-mark" viewBox="0 0 64 64" aria-hidden="true">
+                            <circle cx="32" cy="32" r="29" fill="#0a1a3f" stroke="#4fd6ff" stroke-opacity=".55" stroke-width="3"/>
+                            <path d="M32 32 L32 5 A27 27 0 0 1 51.1 12.9 Z" fill="#4fd6ff"/>
+                            <circle cx="32" cy="32" r="5" fill="#4fd6ff"/>
+                        </svg>
+                        <span class="window-title">Labidi Disk Analyzer</span>
+                        <span class="window-lights" aria-hidden="true">&#8211; &#9633; &#10005;</span>
+                    </div>
+                    <div class="window-toolbar" aria-hidden="true">
+                        <span class="tool-chip">C: · 244G free <span class="drive-fill"><i></i></span></span>
+                        <span class="tool-chip">Pick folder</span>
+                        <span class="tool-chip is-primary">Scan</span>
+                        <span class="tool-chip">Refresh</span>
+                        <span class="tool-chip">Snapshot</span>
+                        <span class="tool-chip">What changed&#8230;</span>
+                    </div>
+                    <div class="window-notice" aria-hidden="true">
+                        note: admin is not available, continuing a bit slower without admin <b>&#10005;</b>
+                    </div>
+                    <div class="window-tabs" aria-hidden="true">
+                        <span class="is-active">Folders</span>
+                        <span>Folders with files</span>
+                        <span>Biggest files</span>
+                        <span>Most recent</span>
+                    </div>
+                    <div class="window-list" aria-hidden="true">
+                        <div class="window-cols"><span>Folder</span><span style="text-align:right">Size</span><span>Share</span></div>
+                        <div class="window-row"><span class="path">C:\Windows</span><span class="size">48.2G</span><span class="share"><span class="share-bar"><i style="--w:100%"></i></span><b>21%</b></span></div>
+                        <div class="window-row"><span class="path">C:\Users</span><span class="size">41.7G</span><span class="share"><span class="share-bar"><i style="--w:87%"></i></span><b>18%</b></span></div>
+                        <div class="window-row"><span class="path">C:\Program Files</span><span class="size">24.9G</span><span class="share"><span class="share-bar"><i style="--w:52%"></i></span><b>11%</b></span></div>
+                        <div class="window-row"><span class="path">C:\ProgramData</span><span class="size">15.3G</span><span class="share"><span class="share-bar"><i style="--w:32%"></i></span><b>7%</b></span></div>
+                        <div class="window-row"><span class="path">C:\Program Files (x86)</span><span class="size">9.8G</span><span class="share"><span class="share-bar"><i style="--w:20%"></i></span><b>4%</b></span></div>
+                        <div class="window-row"><span class="path">C:\Temp</span><span class="size">7.1G</span><span class="share"><span class="share-bar"><i style="--w:15%"></i></span><b>3%</b></span></div>
+                    </div>
+                    <div class="window-status" aria-hidden="true">
+                        Same as: <code>lda scan C:\ -top 25</code>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===================== TRUST STRIP ===================== -->
+        <section class="trust" aria-label="Key numbers">
+            <div class="container">
+                <div class="stat reveal"><b>3.5 MB</b><span>one portable file</span></div>
+                <div class="stat reveal"><b>0</b><span>dependencies, ever</span></div>
+                <div class="stat reveal"><b>100%</b><span>offline, no telemetry</span></div>
+                <div class="stat reveal"><b>~5 s</b><span>warm full-drive scan</span></div>
+            </div>
+        </section>
+
+        <!-- ===================== FEATURES ===================== -->
+        <section id="features" aria-labelledby="features-title">
+            <div class="container">
+                <div class="section-head reveal">
+                    <h2 id="features-title">One engine, two faces</h2>
+                    <p>Double-click the exe and a window opens. Give it any argument and it stays a console tool.
+                       Both drive the same engine, and everything below ships in the one file.</p>
+                </div>
+                <div class="features-grid">
+                    <article class="feature-card reveal">
+                        <div class="feature-icon"><svg class="icon" aria-hidden="true"><use href="#i-chart"></use></svg></div>
+                        <h3>Folders, ranked</h3>
+                        <p>Every folder ranked by recursive size with share bars. Double-click drills in,
+                           Backspace walks back up, and an Explorer-style tab lists the files that live right there.</p>
+                    </article>
+                    <article class="feature-card reveal">
+                        <div class="feature-icon"><svg class="icon" aria-hidden="true"><use href="#i-file"></use></svg></div>
+                        <h3>Biggest and newest files</h3>
+                        <p>The same single scan pass feeds the biggest-files and most-recently-modified views.
+                           Sort by name, size or date, both directions, instant even at hundreds of thousands of rows.</p>
+                    </article>
+                    <article class="feature-card reveal">
+                        <div class="feature-icon"><svg class="icon" aria-hidden="true"><use href="#i-layers"></use></svg></div>
+                        <h3>Snapshot, then diff</h3>
+                        <p>Save the disk's state to a small .lda file before an install. Diff it later against the live
+                           disk or another snapshot: new files, deleted files, grown folders, exactly where.</p>
+                    </article>
+                    <article class="feature-card reveal">
+                        <div class="feature-icon"><svg class="icon" aria-hidden="true"><use href="#i-history"></use></svg></div>
+                        <h3>Restore-point time machine</h3>
+                        <p>Windows already keeps shadow copies. Compare any folder against a restore point with no
+                           snapshot file at all, or browse the whole volume as it was days ago. Strictly read-only.</p>
+                    </article>
+                    <article class="feature-card reveal">
+                        <div class="feature-icon"><svg class="icon" aria-hidden="true"><use href="#i-terminal"></use></svg></div>
+                        <h3>A window that teaches</h3>
+                        <p>The status line always shows the console command answering the same question, so the GUI
+                           doubles as a CLI tutorial. JSON and CSV output feed scripts and tickets directly.</p>
+                    </article>
+                    <article class="feature-card reveal">
+                        <div class="feature-icon"><svg class="icon" aria-hidden="true"><use href="#i-shield"></use></svg></div>
+                        <h3>Leaves no trace</h3>
+                        <p>No installer, no registry keys, no AppData, no temp files, no network code. Metadata-only
+                           reads; it writes only the snapshot you explicitly ask for. Delete the exe and it is gone.</p>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===================== CLI ===================== -->
+        <section id="cli" aria-labelledby="cli-title">
+            <div class="container">
+                <div class="section-head reveal">
+                    <h2 id="cli-title">The command line</h2>
+                    <p>Examples use <code>lda</code> for brevity: rename the exe freely, nothing depends on the name.
+                       Network shares, USB drives and mapped drives are first-class scan targets.</p>
+                </div>
+                <div class="cli-wrap">
+                    <div class="terminal reveal">
+                        <div class="terminal-bar"><i></i><i></i><i></i><span>quick taste</span></div>
+                        <pre><span class="p">$</span> lda                            <span class="c"># what is filling this drive</span>
+<span class="p">$</span> lda drives                     <span class="c"># what can I scan: fixed, USB, network</span>
+<span class="p">$</span> lda files C:\Users -min 100M   <span class="c"># biggest files</span>
+<span class="p">$</span> lda recent C:\ -since 2h       <span class="c"># modified in the last 2 hours</span>
+<span class="p">$</span> lda snap C:\ -out pre.lda      <span class="c"># before installing something</span>
+<span class="p">$</span> lda diff pre.lda C:\           <span class="c"># what did it drop, and where</span>
+<span class="p">$</span> lda diff -shadow 3 C:\Users    <span class="c"># compare against a restore point</span></pre>
+                    </div>
+                    <div class="terminal reveal">
+                        <div class="terminal-bar"><i></i><i></i><i></i><span>lda scan C:\</span></div>
+                        <pre><span class="o">C:\  volume 474.4G  used 230.5G  free 243.9G   scanned 230.1G in 704318 files (5.2s)</span>
+
+   <span class="hl">48.2G</span>   21%  C:\Windows
+   <span class="hl">41.7G</span>   18%  C:\Users
+   <span class="hl">24.9G</span>   11%  C:\Program Files
+   <span class="hl">15.3G</span>    7%  C:\ProgramData
+    <span class="hl">9.8G</span>    4%  C:\Program Files (x86)
+    <span class="hl">7.1G</span>    3%  C:\Temp</pre>
+                    </div>
+                </div>
+                <p class="cli-note reveal">
+                    Verbs: <code>scan</code> <code>files</code> <code>recent</code> <code>snap</code>
+                    <code>diff</code> <code>drives</code> <code>shadows</code> <code>version</code>
+                    &nbsp;·&nbsp; Output: table, <code>-f json</code> or <code>-f csv</code>
+                </p>
+            </div>
+        </section>
+
+        <!-- ===================== DOWNLOAD ===================== -->
+        <section id="download" aria-labelledby="download-title">
+            <div class="container">
+                <div class="section-head reveal">
+                    <h2 id="download-title">Download</h2>
+                    <p>Free, no signup. Put the file anywhere and run it: nothing is written unasked.</p>
+                </div>
+
+                <div class="download-panel reveal">
+                    <div class="download-main">
+                        <div>
+                            <h3>Labidi Disk Analyzer</h3>
+                            <p>Build <code>e0902f3</code> · 2026-09-01 · built with a pinned Go toolchain,
+                               byte-for-byte reproducible from source.</p>
+                        </div>
+                        <a class="btn btn-primary" href="LabidiDiskAnalyzer.exe" download>
+                            <svg class="icon" aria-hidden="true"><use href="#i-download"></use></svg>
+                            Download for Windows&nbsp;<small>x64 · 3.5 MB</small>
+                        </a>
+                    </div>
+
+                    <div class="asset-row">
+                        <div class="asset-name">
+                            <b>Windows x64</b>
+                            <span>LabidiDiskAnalyzer.exe · 3.5 MB · window + CLI</span>
+                        </div>
+                        <span class="asset-hash">
+                            <code title="9e4cff479ab6dbe4e289cc9cbd7d66c0c07bc30743d5e4a99586d4fe40a4b503">9e4cff479ab6dbe4e289cc9cbd7d66c0&hellip;</code>
+                            <button class="copy-btn" type="button" data-copy="9e4cff479ab6dbe4e289cc9cbd7d66c0c07bc30743d5e4a99586d4fe40a4b503" aria-label="Copy the SHA-256 hash of LabidiDiskAnalyzer.exe">
+                                <svg class="icon" aria-hidden="true"><use href="#i-copy"></use></svg>
+                            </button>
+                        </span>
+                        <span class="asset-get">
+                            <a class="btn btn-ghost btn-dl" href="LabidiDiskAnalyzer.exe" download>Download</a>
+                        </span>
+                    </div>
+
+                    <div class="asset-row">
+                        <div class="asset-name">
+                            <b>Windows arm64</b>
+                            <span>LabidiDiskAnalyzer-windows-arm64.exe · 3.3 MB · window + CLI</span>
+                        </div>
+                        <span class="asset-hash">
+                            <code title="037352e2908850b195b99f56ab94dee2360abbfb58f119a386459734021d3780">037352e2908850b195b99f56ab94dee2&hellip;</code>
+                            <button class="copy-btn" type="button" data-copy="037352e2908850b195b99f56ab94dee2360abbfb58f119a386459734021d3780" aria-label="Copy the SHA-256 hash of LabidiDiskAnalyzer-windows-arm64.exe">
+                                <svg class="icon" aria-hidden="true"><use href="#i-copy"></use></svg>
+                            </button>
+                        </span>
+                        <span class="asset-get">
+                            <a class="btn btn-ghost btn-dl" href="LabidiDiskAnalyzer-windows-arm64.exe" download>Download</a>
+                        </span>
+                    </div>
+
+                    <div class="asset-row">
+                        <div class="asset-name">
+                            <b>Linux x64</b>
+                            <span>LabidiDiskAnalyzer-linux-amd64 · 3.0 MB · CLI</span>
+                        </div>
+                        <span class="asset-hash">
+                            <code title="df7bf5bca5a55a1def1d306f90a14a95d13f0bd07a37902c056cffa0d2d70d2e">df7bf5bca5a55a1def1d306f90a14a95&hellip;</code>
+                            <button class="copy-btn" type="button" data-copy="df7bf5bca5a55a1def1d306f90a14a95d13f0bd07a37902c056cffa0d2d70d2e" aria-label="Copy the SHA-256 hash of LabidiDiskAnalyzer-linux-amd64">
+                                <svg class="icon" aria-hidden="true"><use href="#i-copy"></use></svg>
+                            </button>
+                        </span>
+                        <span class="asset-get">
+                            <a class="btn btn-ghost btn-dl" href="LabidiDiskAnalyzer-linux-amd64" download>Download</a>
+                        </span>
+                    </div>
+
+                    <div class="verify">
+                        <h4>Verify your download</h4>
+                        <div class="terminal">
+                            <div class="terminal-bar"><i></i><i></i><i></i><span>PowerShell</span></div>
+                            <pre><span class="p">PS&gt;</span> Get-FileHash .\LabidiDiskAnalyzer.exe -Algorithm SHA256
+<span class="o">9e4cff479ab6dbe4e289cc9cbd7d66c0c07bc30743d5e4a99586d4fe40a4b503</span></pre>
+                        </div>
+                    </div>
+
+                    <div class="download-foot">
+                        <span>All hashes: <a href="SHA256SUMS.txt">SHA256SUMS.txt</a></span>
+                        <span>Windows 10 or 11 · nothing else needed</span>
+                        <span>Source: github.com/Compyra/Labidi-Disk-Analyzer</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===================== FAQ ===================== -->
+        <section id="faq" aria-labelledby="faq-title">
+            <div class="container">
+                <div class="section-head reveal">
+                    <h2 id="faq-title">Questions, answered</h2>
+                </div>
+                <div class="faq-list reveal">
+                    <details>
+                        <summary>Windows SmartScreen warns about the download. Why?</summary>
+                        <div class="faq-body">
+                            The binary is new and not signed with an EV certificate, so SmartScreen has no
+                            reputation for it yet. Verify the SHA-256 hash against the one published above,
+                            then choose <code>More info</code>, <code>Run anyway</code>. The build is
+                            reproducible from source, so the published hash is checkable end to end.
+                        </div>
+                    </details>
+                    <details>
+                        <summary>Do I need administrator rights?</summary>
+                        <div class="faq-body">
+                            No. Without admin it simply counts the folders it cannot read and reports them as
+                            denied, with one ignorable notice. When admin is present it is used automatically.
+                            Elevation is never requested.
+                        </div>
+                    </details>
+                    <details>
+                        <summary>Does it send anything anywhere?</summary>
+                        <div class="faq-body">
+                            No. There is no network code in the binary at all: the source enforces a module-wide
+                            ban on Go's <code>net</code> and <code>os/exec</code> packages with a structural test.
+                            Nothing is uploaded, downloaded or executed behind your back.
+                        </div>
+                    </details>
+                    <details>
+                        <summary>Where does it keep its settings?</summary>
+                        <div class="faq-body">
+                            Nowhere. No registry keys, no AppData, no temp files. The only thing it ever writes
+                            is a snapshot file at the exact path you pass with <code>-out</code>. Delete the exe
+                            and every trace is gone.
+                        </div>
+                    </details>
+                    <details>
+                        <summary>What do restore points have to do with disk space?</summary>
+                        <div class="faq-body">
+                            Two things. Windows quietly keeps shadow copies, and their storage is classic
+                            invisible space: <code>lda drives</code> names those gigabytes. And every restore
+                            point is a free before picture: diff any folder against one, no snapshot file needed.
+                            Always read-only; shadow copies are never created, resized or deleted.
+                        </div>
+                    </details>
+                    <details>
+                        <summary>Is there a macOS build?</summary>
+                        <div class="faq-body">
+                            Not yet. Windows x64 and arm64 get the window plus CLI; the Linux x64 build is
+                            CLI-only. Each platform is a single static binary.
+                        </div>
+                    </details>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- ===================== FOOTER ===================== -->
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <a class="brand" href="#top">
+                        <svg class="brand-mark" viewBox="0 0 64 64" aria-hidden="true">
+                            <circle cx="32" cy="32" r="29" fill="#0a1a3f" stroke="#4fd6ff" stroke-opacity=".55" stroke-width="2"/>
+                            <circle cx="32" cy="32" r="21" fill="none" stroke="#4fd6ff" stroke-opacity=".35" stroke-width="2"/>
+                            <path d="M32 32 L32 5 A27 27 0 0 1 51.1 12.9 Z" fill="#4fd6ff"/>
+                            <circle cx="32" cy="32" r="4.5" fill="#4fd6ff"/>
+                        </svg>
+                        <span class="brand-name">Labidi Disk Analyzer</span>
+                    </a>
+                    <p>A small, honest disk analyzer: one portable executable that answers where the space
+                       went and what changed, then leaves no trace of itself.</p>
+                </div>
+                <div class="footer-col">
+                    <h4>This page</h4>
+                    <ul>
+                        <li><a href="#features">Features</a></li>
+                        <li><a href="#cli">Command line</a></li>
+                        <li><a href="#download">Download</a></li>
+                        <li><a href="#faq">FAQ</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Family</h4>
+                    <ul>
+                        <li><a href="https://labidi.eu/" rel="noopener">labidi.eu</a></li>
+                        <li><a href="https://compyra.com/" rel="noopener">compyra.com</a></li>
+                        <li><a href="mailto:contact@compyra.com">contact@compyra.com</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <span>&copy; <span id="year">2026</span> Compyra · Rami Labidi</span>
+                <span>No cookies, no analytics, no trackers.</span>
+            </div>
+        </div>
+    </footer>
+
+    <noscript>
+        <style>
+            .reveal { opacity: 1; transform: none; }
+            .share-bar i { width: var(--w); }
+        </style>
+    </noscript>
+
+    <script src="script.js?v=1" defer></script>
+</body>
+
+</html>
