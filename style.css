@@ -1116,6 +1116,54 @@ footer {
     transition: none;
 }
 
+/* Ambient disk-fill bars ------------------------------------------
+   A few faint bars quietly fill like folders being measured: once on
+   load, then once every 2 minutes. Each bar grows during the first
+   ~5% of a single 120s cycle and stays invisible for the rest.
+   Decorative only. */
+.disk-fill {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: -1;
+    overflow: hidden;
+}
+
+.disk-fill i {
+    position: absolute;
+    height: 3px;
+    border-radius: 2px;
+    background: linear-gradient(90deg, rgba(79, 214, 255, 0.14), rgba(43, 139, 255, 0.05));
+    transform: scaleX(0);
+    transform-origin: left;
+    opacity: 0;
+    animation: disk-fill 120s linear infinite;
+}
+
+.disk-fill i:nth-child(1) { top: 14%; left: 6%;  width: 38vw; }
+.disk-fill i:nth-child(2) { top: 31%; left: 55%; width: 30vw; animation-delay: 0.5s; }
+.disk-fill i:nth-child(3) { top: 52%; left: 3%;  width: 52vw; animation-delay: 1s; }
+.disk-fill i:nth-child(4) { top: 70%; left: 48%; width: 26vw; animation-delay: 1.5s; }
+.disk-fill i:nth-child(5) { top: 87%; left: 10%; width: 44vw; animation-delay: 2s; }
+
+:root[data-theme="light"] .disk-fill i {
+    background: linear-gradient(90deg, rgba(21, 80, 184, 0.12), rgba(21, 80, 184, 0.04));
+}
+
+@keyframes disk-fill {
+    0%    { transform: scaleX(0); opacity: 0; }
+    0.5%  { opacity: 1; }
+    3.6%  { transform: scaleX(1); opacity: 1; }
+    5%    { transform: scaleX(1); opacity: 0; }
+    100%  { transform: scaleX(1); opacity: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .disk-fill {
+        display: none;
+    }
+}
+
 /* 404 ------------------------------------------------------------ */
 .lost {
     min-height: 72vh;
