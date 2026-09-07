@@ -1,7 +1,7 @@
 # diskanalyzer.labidi.eu
 
 Download page for **Labidi Disk Analyzer**, the portable disk space analyzer
-and snapshot differ built in [Compyra/Labidi-Disk-Analyzer](https://github.com/Compyra/Labidi-Disk-Analyzer).
+and snapshot differ built in [Compyra/LabidiDiskAnalyzer-Tool](https://github.com/Compyra/LabidiDiskAnalyzer-Tool).
 Static site, GitHub Pages behind Cloudflare, family style of labidi.eu and
 compyra.com: no build step, no cookies, no analytics, no external requests.
 scanner.labidi.eu shares this exact layout; when updating one site, mirror
@@ -27,7 +27,7 @@ with its `.radar-ping`.
 The binaries are self-hosted because the source repository is private, so
 GitHub Releases links would 404 for visitors. If the repo ever goes public,
 the download buttons can point at
-`https://github.com/Compyra/Labidi-Disk-Analyzer/releases/latest/download/<name>`
+`https://github.com/Compyra/LabidiDiskAnalyzer-Tool/releases/latest/download/<name>`
 instead.
 
 ## Shipping a new build
